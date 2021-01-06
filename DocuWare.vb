@@ -23,7 +23,12 @@ Imports Newtonsoft.Json
 
 
 ''' <summary>
-''' DocuWare Class library of useful calls that use the DocuWare .NET API libraries.
+'''   <para>
+''' Library of useful calls that use the DocuWare .NET API.
+''' </para>
+'''   <para>
+'''     These functions can be used to connect to a DocuWare instance either on premise or DocuWare Cloud. 
+'''   </para>
 ''' </summary>
 Public Class DocuWare
 
