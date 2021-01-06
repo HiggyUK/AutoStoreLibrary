@@ -22,10 +22,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("AutoStoreLibrary")>
+<Assembly: AssemblyTitle("AutoStore Library")>
 <Assembly: AssemblyDescription("AutoStore Integration Function Library")>
 <Assembly: AssemblyCompany("John Campbell-Higgens (Kofax UK Ltd)")>
-<Assembly: AssemblyProduct("AutoStoreLibrary")>
+<Assembly: AssemblyProduct("AutoStore Library")>
 <Assembly: AssemblyCopyright("Copyright © 2020 John Campbell-Higgens (Kofax UK Ltd)")>
 <Assembly: AssemblyTrademark("")>
 

@@ -13,22 +13,13 @@
 ' ***********************************************************************
 
 Imports System.Security.Cryptography
-''' <summary>
-''' Simple Triple Des encryption function libary. Used by the <see cref="Tools" />function class of the AutoStoreLibrary
-''' </summary>
+''' <exclude />
 Public NotInheritable Class Simple3Des
 
-    ''' <summary>
-    ''' The triple DES
-    ''' </summary>
+    ''' <exclude />
     Private TripleDes As New TripleDESCryptoServiceProvider
 
-    ''' <summary>
-    ''' Internal function of the Simple3Des library in AutoStoreLibrary to truncate and has the provided string
-    ''' </summary>
-    ''' <param name="key">The key.</param>
-    ''' <param name="length">The length.</param>
-    ''' <returns>System.Byte().</returns>
+    ''' <exclude />
     Private Function TruncateHash(ByVal key As String, ByVal length As Integer) As Byte()
 
         Dim sha1 As New SHA1CryptoServiceProvider
@@ -42,10 +33,7 @@ Public NotInheritable Class Simple3Des
         Return hash
     End Function
 
-    ''' <summary>
-    ''' Creates a new Key
-    ''' </summary>
-    ''' <param name="key">The key.</param>
+    ''' <exclude />
     Public Sub New(ByVal key As String)
         ' Initialize the crypto provider.
         TripleDes.Key = TruncateHash(key, TripleDes.KeySize \ 8)
@@ -53,11 +41,7 @@ Public NotInheritable Class Simple3Des
     End Sub
 
 
-    ''' <summary>
-    ''' Encodes a string of text with TripleDes encryption
-    ''' </summary>
-    ''' <param name="plaintext">Text to be encoded</param>
-    ''' <returns>System.String.</returns>
+    ''' <exclude />
     Public Function EncryptData(ByVal plaintext As String) As String
 
         Dim encodedString As String = ""
@@ -83,11 +67,7 @@ Public NotInheritable Class Simple3Des
 
     End Function
 
-    ''' <summary>
-    ''' Decodes a string of TripleDes encrypted text.
-    ''' </summary>
-    ''' <param name="encryptedtext">Text to be decoded</param>
-    ''' <returns>System.String.</returns>
+    ''' <exclude />
     Public Function DecryptData(ByVal encryptedtext As String) As String
 
         ' Convert the encrypted text string to a byte array.
