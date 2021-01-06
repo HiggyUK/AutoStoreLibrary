@@ -9,6 +9,7 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Description = Library of Functions for use in AutoStore Scripts 
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{171D63B2-A53B-4F1F-9866-16D3D03C9E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

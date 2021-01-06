@@ -1,4 +1,18 @@
-﻿Imports System.IO
+﻿' ***********************************************************************
+' Assembly         : AutoStoreLibrary
+' Author           : John Campbell-Higgens
+' Created          : 24-Dec-2020
+'
+' Last Modified By : John Campbell-Higgens
+' Last Modified On : 06-Jan-2021
+' ***********************************************************************
+' <copyright file="DocuWare.vb" company="John Campbell-Higgens (Kofax UK Ltd)">
+'     Copyright © 2020 John Campbell-Higgens (Kofax UK Ltd)
+' </copyright>
+' <summary></summary>
+' ***********************************************************************
+
+Imports System.IO
 Imports System.Net
 Imports System.Collections.Generic
 Imports System.Linq
@@ -8,23 +22,27 @@ Imports DocuWare.Platform.ServerClient
 Imports Newtonsoft.Json
 
 
+''' <summary>
+''' DocuWare Class library of useful calls that use the DocuWare .NET API libraries.
+''' </summary>
 Public Class DocuWare
-
-    Shared uri As Uri = New Uri("http://chw-dw-03/docuware/platform")
-
 
     ''' <summary>
     ''' Returns the version of the DocuWare Library elements of this AutoStore Library
     ''' </summary>
-    ''' <returns>Version String</returns>
+    ''' <returns>Version String (format Version x.x.x.x)</returns>
     Public Shared Function GetVersion() As String
 
-        Return "Version 1.1.0.3"
+        Return "Version 1.2.0.4"
 
     End Function
 
     ''' <summary>
+    ''' <para>
     ''' Function to return a list of Organisations that the user has access to.
+    ''' </para>
+    ''' <para>Returns a list of Organisations separated by the | character, for example</para>
+    ''' <para>First Organisation|Second Organisation|Third Organisation </para>
     ''' </summary>
     ''' <param name="uri">The path to the Document Instance, either on premise or cloud.  This is usually in the format of http://[server/cloud]/docuware/platform</param>
     ''' <param name="userName">Username within DocuWare</param>
@@ -59,12 +77,12 @@ Public Class DocuWare
 
     End Function
     ''' <summary>
-    ''' Function to return the name of the primary organisation that the user has access too, assuming they have access to it.
+    ''' This method allows the confirmation of authentication to a particular named Organisation for the specified user.  It returns the Organisation Name, if the user has access to it.  Otherwise it will return an error message.
     ''' </summary>
     ''' <param name="uri">The path to the Document Instance, either on premise or cloud.  This is usually in the format of http://[server/cloud]/docuware/platform</param>
     ''' <param name="userName">DocuWare username</param>
     ''' <param name="userPassword">Password of the DocuWare user</param>
-    ''' <param name="organisation">Organistion to check and return</param>
+    ''' <param name="organisation">Organisation to check and return</param>
     ''' <returns>Organisation Name</returns>
     Public Shared Function GetOrganisation(uri As Uri, userName As String, userPassword As String, organisation As String) As String
 
@@ -82,7 +100,7 @@ Public Class DocuWare
 
     End Function
     ''' <summary>
-    ''' Function to return a list of File Cabinets that the user has access to in the organisation specified.
+    ''' Returns a list of File Cabinets that the user has access to in the organisation specified.
     ''' </summary>
     ''' <param name="uri">The path to the Document Instance, either on premise or cloud.  This is usually in the format of http://[server/cloud]/docuware/platform</param>
     ''' <param name="userName">DocuWare UserName</param>
@@ -117,11 +135,11 @@ Public Class DocuWare
 
     End Function
     ''' <summary>
-    ''' Function to return the list of Baskets that the user has access to in the specified organisation
+    ''' Returns a list of Trays/Baskets that the user has access to in the specified organisation
     ''' </summary>
     ''' <param name="uri">The path to the Document Instance, either on premise or cloud.  This is usually in the format of http://[server/cloud]/docuware/platform</param>
-    ''' <param name="userName">Docuware UserName</param>
-    ''' <param name="userPassword">Docuware Userpassword</param>
+    ''' <param name="userName">Docuware User Name</param>
+    ''' <param name="userPassword">Docuware Users password</param>
     ''' <param name="organisation">Organisation Name</param>
     ''' <returns>List of Baskets that the user has access to delimited with | character</returns>
     Public Shared Function GetBaskets(uri As Uri, userName As String, userPassword As String, organisation As String) As String
@@ -156,27 +174,37 @@ Public Class DocuWare
     ''' Function to return a complete list of fields
     ''' </summary>
     ''' <param name="uri">The path to the Document Instance, either on premise or cloud.  This is usually in the format of http://[server/cloud]/docuware/platform</param>
-    ''' <param name="userName">Docuware UserName</param>
-    ''' <param name="userPassword">Docuware Userpassword</param>
+    ''' <param name="userName">Docuware User Name</param>
+    ''' <param name="userPassword">Docuware Users password</param>
     ''' <param name="organisation">Organisation Name</param>
     ''' <param name="cabinet">Cabinet Name</param>
-    ''' <returns>A list of fields which are delimited with | characters.  Each field will be returned with the following fields
-    ''' 
-    ''' Field DB Name
-    ''' Field Display Name
-    ''' Field Type
-    ''' Field Scope
-    ''' 
+    ''' <returns><para>A list of fields which are delimited with | characters. </para>
+    ''' <para>Each field will be returned with the following fields
+    ''' :- </para>
+    ''' <list type="bullet">
+    '''   <item>Field DB Name </item>
+    '''   <item>Field Display Name </item>
+    '''   <item>Field Type </item>
+    '''   <item>Field Scope
+    ''' </item>
+    ''' </list>
+    ''' <para>
     ''' Each field will be seperated with ||
-    ''' 
-    ''' For example if the cabinet has 3 fields they will be returned as 
-    ''' fieldname1|Field 1|0|1||fieldname2|Field 2|0|1||fieldname3|Field 3|0|1||
-    ''' 
-    ''' Scope is currently 0 or 1 
-    ''' O - System Field
-    ''' 1 - User Field
-    ''' 
-    ''' </returns>
+    ''' </para>
+    ''' <para>
+    ''' For example if the cabinet has 3 fields they will be returned as
+    ''' </para>
+    ''' <para>
+    '''   <em>fieldname1|Field 1|0|1||fieldname2|Field 2|0|1||fieldname3|Field 3|0|1||</em>
+    ''' </para>
+    ''' <para>
+    ''' Scope is currently 0 or 1
+    ''' :</para>
+    ''' <list type="bullet">
+    '''   <item> 0 - System Field </item>
+    '''   <item> 1 - User Field
+    ''' </item>
+    ''' </list></returns>
     Public Shared Function GetFields(uri As Uri, userName As String, userPassword As String, organisation As String, cabinet As String) As String
 
         Dim fieldList As String = ""
@@ -216,40 +244,6 @@ Public Class DocuWare
         Return fieldList
 
     End Function
-    Public Shared Function Connect() As ServiceConnection
-        Return ServiceConnection.Create(uri, "admin", "admin")
-    End Function
 
-    Public Shared Function ConnectWithUserAgent() As ServiceConnection
-        Return ServiceConnection.Create(uri, "admin", "admin", userAgent:=New System.Net.Http.Headers.ProductInfoHeaderValue() {New System.Net.Http.Headers.ProductInfoHeaderValue("DocuWare+.NET+API+Test+Client", "1.0")})
-    End Function
-
-    Public Shared Function ConnectWithOrg() As ServiceConnection
-        Return ServiceConnection.Create(uri, "admin", "admin", organization:="Peters Engineering")
-    End Function
-    Public Shared Function ConnectWithCaching() As ServiceConnection
-        Dim handler = New WebRequestHandler() With {
-            .CachePolicy = New RequestCachePolicy(RequestCacheLevel.[Default])
-        }
-        Return ServiceConnection.Create(uri, "admin", "admin", httpClientHandler:=handler)
-    End Function
-
-    Public Shared Function ConnectWithNTLM() As ServiceConnection
-        Return ServiceConnection.CreateWithWindowsAuthentication(uri, "Administrator", "admin")
-    End Function
-
-    Public Shared Function ConnectWithDefaultUser() As ServiceConnection
-        Return ServiceConnection.CreateWithWindowsAuthentication(uri, System.Net.CredentialCache.DefaultCredentials)
-    End Function
-
-    Public Shared Function ConnectWithDisplayLanguageAndFormatCulture() As ServiceConnection
-        Dim handler = New WebRequestHandler() With {
-            .CookieContainer = New CookieContainer(),
-            .UseCookies = True
-        }
-        handler.CookieContainer.Add(New Cookie("DWFormatCulture", "de", "/", "localhost"))
-        handler.CookieContainer.Add(New Cookie("DWLanguage", "de", "/", "localhost"))
-        Return ServiceConnection.Create(uri, "admin", "admin", httpClientHandler:=handler)
-    End Function
 
 End Class

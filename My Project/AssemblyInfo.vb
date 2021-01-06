@@ -1,4 +1,18 @@
-﻿Imports System
+﻿' ***********************************************************************
+' Assembly         : AutoStoreLibrary
+' Author           : John Campbell-Higgens
+' Created          : 16-Sep-2020
+'
+' Last Modified By : John Campbell-Higgens
+' Last Modified On : 06-Jan-2021
+' ***********************************************************************
+' <copyright file="AssemblyInfo.vb" company="John Campbell-Higgens (Kofax UK Ltd)">
+'     Copyright © 2020 John Campbell-Higgens (Kofax UK Ltd)
+' </copyright>
+' <summary></summary>
+' ***********************************************************************
+
+Imports System
 Imports System.Reflection
 Imports System.Runtime.InteropServices
 
@@ -10,9 +24,9 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("AutoStoreLibrary")>
 <Assembly: AssemblyDescription("AutoStore Integration Function Library")>
-<Assembly: AssemblyCompany("Kofax UK Ltd")>
+<Assembly: AssemblyCompany("John Campbell-Higgens (Kofax UK Ltd)")>
 <Assembly: AssemblyProduct("AutoStoreLibrary")>
-<Assembly: AssemblyCopyright("Copyright © 2020 John Campbell-Higgens")>
+<Assembly: AssemblyCopyright("Copyright © 2020 John Campbell-Higgens (Kofax UK Ltd)")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(True)>
@@ -31,5 +45,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.2.0.3")>
-<Assembly: AssemblyFileVersion("1.2.0.3")>
+<Assembly: AssemblyVersion("1.2.0.5")>
+<Assembly: AssemblyFileVersion("1.2.0.5")>

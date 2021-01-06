@@ -1,7 +1,24 @@
-﻿Imports System.IO
+﻿' ***********************************************************************
+' Assembly         : AutoStoreLibrary
+' Author           : John Campbell-Higgens
+' Created          : 16-Sep-2020
+'
+' Last Modified By : John Campbell-Higgens
+' Last Modified On : 06-Jan-2021
+' ***********************************************************************
+' <copyright file="SignDoc.vb" company="John Campbell-Higgens (Kofax UK Ltd)">
+'     Copyright © 2020 John Campbell-Higgens (Kofax UK Ltd)
+' </copyright>
+' <summary></summary>
+' ***********************************************************************
+
+Imports System.IO
 Imports System.Net
 Imports Newtonsoft.Json
 
+''' <summary>
+''' Function Library of useful SignDoc functions.  Designed to work with the SignDoc v7 Rest-API
+''' </summary>
 Public Class SignDoc
 
     ''' <summary>
@@ -9,10 +26,7 @@ Public Class SignDoc
     ''' </summary>
     ''' <returns>Verison string</returns>
     Public Shared Function GetVersion() As String
-
-        Return "Version 1.1.0.4"
-
-
+        Return "Version 1.2.0.4"
     End Function
 
     ''' <summary>
@@ -68,7 +82,7 @@ Public Class SignDoc
     ''' Function to create a SignDoc package.  This creates the initial package that documents and signature can then be added to.
     ''' </summary>
     ''' <param name="packageName">The name of the SignDoc Package</param>
-    ''' <param name="packageType">the SignDoc package type - PACKAGE is currently the only supported option </param>
+    ''' <param name="packageType">the SignDoc package type - PACKAGE is currently the only supported option</param>
     ''' <param name="AuthenticationToken">Authentication token from the GetAuthenticationToken function</param>
     ''' <param name="serverAddress">URL address of the SignDoc Sever</param>
     ''' <returns>PackageID of the created SignDoc Package</returns>
@@ -137,7 +151,7 @@ Public Class SignDoc
     ''' <param name="PackageID">Package ID from the CreatePackage function, used to identify the package to add signers to.</param>
     ''' <param name="SignerName">Name of the Signer</param>
     ''' <param name="SignerEmail">Email Address of the Signer</param>
-    ''' <param name="SignerType">Type of Signer (Option SIGNER or REVIEWER) </param>
+    ''' <param name="SignerType">Type of Signer (Option SIGNER or REVIEWER)</param>
     ''' <returns>Returns the SignerID of the Signer Created</returns>
     Public Shared Function AddSigner(ByVal serverAddress, ByVal authToken, ByVal PackageID, ByVal SignerName, ByVal SignerEmail, ByVal SignerType) As String
 
@@ -209,7 +223,7 @@ Public Class SignDoc
     ''' <param name="DocumentName">Name of the Document</param>
     ''' <param name="DocumentDescription">Description of the Document</param>
     ''' <param name="DocumentMessage">Message to attach to the document</param>
-    ''' <returns>Returns the DocumentID of the added Document </returns>
+    ''' <returns>Returns the DocumentID of the added Document</returns>
     Public Shared Function AddDocument(ByVal serverAddress, ByVal authToken, ByVal PackageID, ByVal DocumentFilePath, ByVal DocumentFileName, ByVal DocumentFormat, ByVal DocumentName, ByVal DocumentDescription, ByVal DocumentMessage) As String
 
         Dim request As HttpWebRequest
@@ -370,7 +384,7 @@ Public Class SignDoc
     ''' <param name="serverAddress">URL address of the SignDoc Sever</param>
     ''' <param name="authToken">Authentication token from the GetAuthenticationToken function</param>
     ''' <param name="PackageID">Package ID from the CreatePackage function</param>
-    ''' <returns></returns>
+    ''' <returns>System.String.</returns>
     Public Shared Function SchedulePackage(ByVal serverAddress, ByVal authToken, ByVal PackageID) As String
 
         Dim request As HttpWebRequest
@@ -403,56 +417,158 @@ Public Class SignDoc
     End Function
 End Class
 
+''' <exclude />
 Public Class SignDocPackage
+    ''' <summary>
+    ''' Gets or sets the name.
+    ''' </summary>
+    ''' <value>The name.</value>
     Public Property name As String
+    ''' <summary>
+    ''' Gets or sets the type.
+    ''' </summary>
+    ''' <value>The type.</value>
     Public Property type As String
 
 End Class
 
+''' <exclude />
 Public Class SignDocPackageDetails
+    ''' <summary>
+    ''' Gets or sets the identifier.
+    ''' </summary>
+    ''' <value>The identifier.</value>
     Public Property id As String
+    ''' <summary>
+    ''' Gets or sets the URL.
+    ''' </summary>
+    ''' <value>The URL.</value>
     Public Property url As String
 
 End Class
 
+''' <exclude />
 Public Class SignerDetails
 
+    ''' <summary>
+    ''' Gets or sets the email.
+    ''' </summary>
+    ''' <value>The email.</value>
     Public Property email As String
+    ''' <summary>
+    ''' Gets or sets the name.
+    ''' </summary>
+    ''' <value>The name.</value>
     Public Property name As String
+    ''' <summary>
+    ''' Gets or sets the role.
+    ''' </summary>
+    ''' <value>The role.</value>
     Public Property role As String
 
 
 End Class
 
+''' <exclude />
 Public Class SignDocSignerDetails
+    ''' <summary>
+    ''' Gets or sets the identifier.
+    ''' </summary>
+    ''' <value>The identifier.</value>
     Public Property id As String
+    ''' <summary>
+    ''' Gets or sets the messages.
+    ''' </summary>
+    ''' <value>The messages.</value>
     Public Property messages As String
+    ''' <summary>
+    ''' Gets or sets the URL.
+    ''' </summary>
+    ''' <value>The URL.</value>
     Public Property url As String
 
 End Class
 
+''' <exclude />
 Public Class DocumentEntry
 
     ' Document Content as BASE64
+    ''' <summary>
+    ''' Gets or sets the content.
+    ''' </summary>
+    ''' <value>The content.</value>
     Public Property content As String
+    ''' <summary>
+    ''' Gets or sets the description.
+    ''' </summary>
+    ''' <value>The description.</value>
     Public Property description As String
+    ''' <summary>
+    ''' Gets or sets the document message.
+    ''' </summary>
+    ''' <value>The document message.</value>
     Public Property documentMessage As String
+    ''' <summary>
+    ''' Gets or sets the name of the file.
+    ''' </summary>
+    ''' <value>The name of the file.</value>
     Public Property fileName As String
+    ''' <summary>
+    ''' Gets or sets the format.
+    ''' </summary>
+    ''' <value>The format.</value>
     Public Property format As String
+    ''' <summary>
+    ''' Gets or sets the name.
+    ''' </summary>
+    ''' <value>The name.</value>
     Public Property name As String
 
 
 End Class
 
+''' <exclude />
 Public Class DocumentReturn
+    ''' <summary>
+    ''' Gets or sets the description.
+    ''' </summary>
+    ''' <value>The description.</value>
     Public Property description As String
+    ''' <summary>
+    ''' Gets or sets the document message.
+    ''' </summary>
+    ''' <value>The document message.</value>
     Public Property documentMessage As String
+    ''' <summary>
+    ''' Gets or sets the name of the file.
+    ''' </summary>
+    ''' <value>The name of the file.</value>
     Public Property fileName As String
+    ''' <summary>
+    ''' Gets or sets the identifier.
+    ''' </summary>
+    ''' <value>The identifier.</value>
     Public Property id As String
+    ''' <summary>
+    ''' Gets or sets the name.
+    ''' </summary>
+    ''' <value>The name.</value>
     Public Property name As String
+    ''' <summary>
+    ''' Gets or sets the order.
+    ''' </summary>
+    ''' <value>The order.</value>
     Public Property order As String
+    ''' <summary>
+    ''' Gets or sets the thumbnai.
+    ''' </summary>
+    ''' <value>The thumbnai.</value>
     Public Property thumbnai As String
 
+    ''' <summary>
+    ''' Gets or sets the URL.
+    ''' </summary>
+    ''' <value>The URL.</value>
     Public Property url As String
 
 
