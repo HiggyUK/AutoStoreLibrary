@@ -1,6 +1,6 @@
 # AutoStoreLibrary
 
-TThis library contains the files associated with the AutoStoreLibrary DLL. The Calls are currently split between the following Classes under the AutoStoreLibrary Class:
+This library contains the files associated with the AutoStoreLibrary DLL. The Calls are currently split between the following Classes under the AutoStoreLibrary Class:
 
 AutoStoreLibrary.DocWare - Calls to DocuWare using the .NET API of Document 
 AutoStoreLibrary.SignDoc - Calls to Kofax SignDoc using the SignDoc v7 API 
