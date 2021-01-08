@@ -51,21 +51,21 @@ Public Class DocuWare
     ''' <returns>Version String (format Version x.x.x.x)</returns>
     Public Shared Function GetVersion() As String
 
-        Return "Version 1.2.0.4"
+        Return "Version 1.2.0.5"
 
     End Function
 
     ''' <summary>
-    ''' <para>
+    '''   <para>
     ''' Function to return a list of Organisations that the user has access to.
     ''' </para>
-    ''' <para>Returns a list of Organisations separated by the | character, for example</para>
-    ''' <para>First Organisation|Second Organisation|Third Organisation </para>
+    '''   <para>Returns a list of Organisations separated by the | character, for example</para>
+    '''   <para>First Organisation|Second Organisation|Third Organisation </para>
     ''' </summary>
     ''' <param name="uri">The path to the Document Instance, either on premise or cloud.  This is usually in the format of http://[server/cloud]/docuware/platform</param>
     ''' <param name="userName">Username within DocuWare</param>
     ''' <param name="userPassword">Password of user in Docuware</param>
-    ''' <returns>List of Organisation Names that the user has access too.  Which may only be a single return</returns>
+    ''' <returns>List of Organisation Names that the user has access. This may be a single return string or may be returned as a | delimited list of Organisation Names</returns>
     Public Shared Function GetOrganisations(uri As Uri, userName As String, userPassword As String) As String
 
         Dim docuWareConnection As ServiceConnection
@@ -94,27 +94,38 @@ Public Class DocuWare
         Return organisationName
 
     End Function
-    ''' <summary>
-    ''' This method allows the confirmation of authentication to a particular named Organisation for the specified user.  It returns the Organisation Name, if the user has access to it.  Otherwise it will return an error message.
-    ''' </summary>
+
+    ''' <summary>Returns an collection of Organisations that the User has access to.</summary>
     ''' <param name="uri">The path to the Document Instance, either on premise or cloud.  This is usually in the format of http://[server/cloud]/docuware/platform</param>
     ''' <param name="userName">DocuWare username</param>
     ''' <param name="userPassword">Password of the DocuWare user</param>
-    ''' <param name="organisation">Organisation to check and return</param>
-    ''' <returns>Organisation Name</returns>
-    Public Shared Function GetOrganisation(uri As Uri, userName As String, userPassword As String, organisation As String) As String
+    ''' <returns>
+    '''   <see cref="OrganisationCollection" /> of <see cref="Organisation" /> that the user has access to</returns>
+    Public Shared Function GetOrganisationCollection(uri As Uri, userName As String, userPassword As String) As OrganisationCollection
 
         Dim docuWareConnection As ServiceConnection
         Dim docuWareOrg As Organization
+        Dim orgCount As Integer
         Dim organisationName As String = ""
+        Dim organisation As New Organisation
+        Dim organisationCollection As New OrganisationCollection
 
-        docuWareConnection = ServiceConnection.Create(uri, userName, userPassword, organization:=organisation)
-        docuWareOrg = docuWareConnection.Organizations(0)
+        Try
+            docuWareConnection = ServiceConnection.Create(uri, userName, userPassword)
+            If docuWareConnection.Organizations.Count > 0 Then
+                For orgCount = 0 To docuWareConnection.Organizations.Count - 1
+                    docuWareOrg = docuWareConnection.Organizations(orgCount)
+                    organisation.Name = docuWareOrg.Name
+                    organisationCollection.Items.Add(organisation)
+                Next
+            End If
+            docuWareConnection.Disconnect()
 
-        organisationName = docuWareOrg.Name
-        docuWareConnection.Disconnect()
+        Catch ex As Exception
+            organisation.Name = ex.Message
+        End Try
 
-        Return organisationName
+        Return organisationCollection
 
     End Function
     ''' <summary>
@@ -152,6 +163,41 @@ Public Class DocuWare
         Return fileCabinetList
 
     End Function
+
+    ''' <summary>Returns a list of <see cref="T:AutoStoreLibrary.DocuWare.FileCabinetsCollection" /> that the user has access to in the organisation specified.</summary>
+    ''' <param name="uri">The path to the Document Instance, either on premise or cloud.  This is usually in the format of http://[server/cloud]/docuware/platform</param>
+    ''' <param name="userName">DocuWare UserName</param>
+    ''' <param name="userPassword">DocuWare user password</param>
+    ''' <param name="organisation">Organisation name to return File Cabinets for</param>
+    ''' <returns>
+    '''   <see cref="T:AutoStoreLibrary.DocuWare.FileCabinetsCollection" />
+    ''' </returns>
+    Public Shared Function GetFileCabinetCollection(uri As Uri, userName As String, userPassword As String, organisation As String) As FileCabinetsCollection
+
+        Dim docuWareConnection As ServiceConnection
+        Dim docuWareOrg As Organization
+        Dim docuWareFileCabinets As List(Of FileCabinet)
+        Dim fileCabinetsList As New FileCabinetsCollection
+        Dim fileCabinet As New FileCabinets
+
+        docuWareConnection = ServiceConnection.Create(uri, userName, userPassword, organization:=organisation)
+        docuWareOrg = docuWareConnection.Organizations(0)
+
+        docuWareFileCabinets = docuWareOrg.GetFileCabinetsFromFilecabinetsRelation().FileCabinet
+
+        For Each fc In docuWareFileCabinets
+            If fc.IsBasket = False Then
+                fileCabinet.Name = fc.Name
+                fileCabinetsList.Items.Add(fileCabinet)
+            End If
+        Next
+
+        docuWareConnection.Disconnect()
+
+        Return fileCabinetsList
+
+    End Function
+
     ''' <summary>
     ''' Returns a list of Trays/Baskets that the user has access to in the specified organisation
     ''' </summary>
@@ -264,4 +310,68 @@ Public Class DocuWare
     End Function
 
 
+    ''' <summary>DocuWare Organisation details</summary>
+    ''' Class Organisation.
+    Public Class Organisation
+
+        ''' <summary>Name of the Organisation</summary>
+        Public Property Name As String
+
+
+    End Class
+    ''' <summary>DocuWare Field information class</summary>
+    ''' Class Field.
+    Public Class Field
+        ''' <summary>Database Name of the Field</summary>
+        Public Property DBName As String
+        ''' <summary>Display Name of the Field</summary>
+        Public Property DiplayName As String
+        ''' <summary>Type of Field</summary>
+        Public Property FieldType As String
+        ''' <summary>Scope of the Field</summary>
+        Public Property FieldScope As String
+
+    End Class
+
+    ''' <summary>DocuWare File Cabinets Class.  Used to obtain details of the File Cabinet</summary>
+    ''' Class FileCabinets.
+    Public Class FileCabinets
+        ''' <summary>File Cabinet Name</summary>
+        Public Property Name As String
+    End Class
+
+    ''' <summary>DocuWare Basket / Tray Class. Used to obtain and store details of the Basket/Tray</summary>
+    ''' Class BasketTray.
+    Public Class BasketTray
+        ''' <summary>Name of the Basket/Tray</summary>
+        Public Property Name As String
+    End Class
+
+    ''' <summary>Collection of <see cref="Organisation" /> return from DocuWare</summary>
+    ''' Class OrganisationCollection.
+    Public Class OrganisationCollection
+
+        ''' <summary>Item list of Organisation that have been returned</summary>
+        Public Property Items As List(Of Organisation)
+
+    End Class
+
+    ''' <summary>Collection of File Cabinet that have been returned by the <see cref="FileCabinet" /> Class</summary>
+    ''' Class FileCabinetCollection.
+    Public Class FileCabinetsCollection
+
+        ''' <summary>List of FileCabinet</summary>
+        Public Property Items As List(Of FileCabinets)
+
+    End Class
+
+    ''' <summary>List of Fields returned by the <see cref="Field" />class</summary>
+    ''' Class FieldCollection.
+    Public Class FieldCollection
+        ''' <summary>Returns the Item list of <see cref="Field" /></summary>
+        Public Property Items As List(Of Field)
+
+    End Class
+
 End Class
+

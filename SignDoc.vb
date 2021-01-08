@@ -560,10 +560,10 @@ Public Class DocumentReturn
     ''' <value>The order.</value>
     Public Property order As String
     ''' <summary>
-    ''' Gets or sets the thumbnai.
+    ''' Gets or sets the thumbnail.
     ''' </summary>
-    ''' <value>The thumbnai.</value>
-    Public Property thumbnai As String
+    ''' <value>The thumbnail.</value>
+    Public Property thumbnail As String
 
     ''' <summary>
     ''' Gets or sets the URL.
