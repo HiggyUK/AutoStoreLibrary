@@ -23,6 +23,24 @@ Imports Newtonsoft.Json
 
 
 ''' <summary>
+''' <para>AutoStore Addon Library of calls.  This library is provided to assist partners and end customers in the building and configuration of AutoStore Workflows.
+''' It provides a number of different functions and calls to different systems.</para>
+''' <para>It has been developed as a demonstraton by John Campbell-Higgens and is not directly supported by Kofax Support.  Support and issues is provide on an adhoc basis via
+''' GitHub site https://github.com/HiggyUK.  This site contains all the source code for this library as well as the fully usable DLL files.</para>
+''' <para>The library currently has calls and functions in three sections</para>
+''' <para>
+'''   <list type="bullet">
+'''     <item>DocuWare</item>
+'''     <item>Kofax SignDoc</item>
+'''     <item>Tools</item>
+'''   </list>
+''' Details of each of these are linked below</para>
+''' </summary>
+Namespace Global.AutoStoreLibrary
+
+End Namespace
+
+''' <summary>
 ''' DocuWare Class library of useful calls that use the DocuWare .NET API libraries.
 ''' </summary>
 Public Class DocuWare
